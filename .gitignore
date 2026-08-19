@@ -1,0 +1,18 @@
+# Build artifacts
+/_build/
+/cover/
+/deps/
+/doc/
+/docs/
+
+# Package releases
+*.ez
+
+# Runtime / crash dumps
+erl_crash.dump
+
+# Editors
+*.swp
+.idea/
+.vscode/
+.DS_Store
