@@ -106,9 +106,6 @@ overrides. The `polaris_ui` engine dependency keeps providing the shared
 machinery (`PolarisUI.Utils.cn/1`, `PolarisUI.Tokens`), so copied components work
 unmodified. Use `--namespace` to target a different namespace.
 
-> The component catalog starts filling in from Phase 2 (buttons, inputs,
-> drawers) — see `polaris_ui_plan.md` for the roadmap.
-
 ## Authoring components against the engine
 
 Components in this package are authored like this:
