@@ -28,7 +28,8 @@ defmodule PolarisUI.Components do
         source: "lib/polaris_ui/components/button.ex"
       }
 
-  The catalog is intentionally empty until Phase 2 components land.
+  The catalog currently holds the Phase 1 atoms as they land, starting with
+  `button`.
   """
 
   @components_dir "lib/polaris_ui/components"

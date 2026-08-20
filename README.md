@@ -75,8 +75,11 @@ you can customize it freely.
 | `--color-content-muted`        | `text-content-muted`               | `#707070`      | `#8f8f8f`                |
 | `--font-mono`                  | `font-mono`                        | JetBrains Mono → system fallbacks | — |
 
-Full palette (including `danger`, `warning`, `info`, and `*-muted` tints): see
-`PolarisUI.Tokens`.
+Full palette (including `danger`, `warning`, `info`, `*-muted` tints, and the
+button-role tokens `brand-fill`, `brand-accent`, `brand-border{,-hover}`,
+`brand-deep`, `danger-fill{,-hover}`, `danger-border{,-hover}`,
+`warning-fill{,-hover}`, `warning-border{,-hover}` with light overrides):
+see `PolarisUI.Tokens`.
 
 **Theming** — Polaris is dark-mode-first; the dark palette applies by default. Add
 `polaris-light` to `<html>` (or any subtree wrapper) to flip surfaces and text to

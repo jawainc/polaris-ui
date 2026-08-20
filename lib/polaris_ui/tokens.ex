@@ -11,6 +11,9 @@ defmodule PolarisUI.Tokens do
   | Token                          | Utilities                            | Value (dark, default) |
   |--------------------------------|--------------------------------------|-----------------------|
   | `--color-brand-emerald`        | `bg-`, `text-`, `border-`, `ring-` … | `#3ecf8e`             |
+  | `--color-brand-accent`         | `text-`, icons & spinners            | `#3ecf8e` (light: `#097d36`) |
+  | `--color-brand-fill`           | `bg-brand-fill`                      | `#15593b` (light: `#72e3ad`) |
+  | `--color-brand-border`         | `border-brand-border`                | `rgba(98,207,127,.3)` |
   | `--color-surface-ground`       | `bg-surface-ground`                  | `#0a0a0a`             |
   | `--color-surface-base`         | `bg-surface-base`                    | `#121212`             |
   | `--color-surface-panel`        | `bg-surface-panel`                   | `#1c1c1c`             |
@@ -64,6 +67,19 @@ defmodule PolarisUI.Tokens do
       --color-brand-emerald-hover: #36ba80;
       --color-brand-emerald-muted: rgba(62, 207, 142, 0.14);
 
+      /*
+       * Button-role brand tokens, mirroring the Supabase design system
+       * (packages/ui): fills are muted greens with visible brand borders;
+       * the bright emerald (`brand-accent` in dark) is reserved for
+       * icons, spinners, and link text.
+       */
+      --color-brand-accent: #3ecf8e;
+      --color-brand-fill: #15593b;
+      --color-brand-fill-hover: #3c945d;
+      --color-brand-border: rgba(98, 207, 127, 0.3);
+      --color-brand-border-hover: #62cf7f;
+      --color-brand-deep: #0c3a25;
+
       /* Status */
       --color-danger: #e5484d;
       --color-danger-muted: rgba(229, 72, 77, 0.14);
@@ -71,6 +87,16 @@ defmodule PolarisUI.Tokens do
       --color-warning-muted: rgba(255, 178, 36, 0.14);
       --color-info: #38bdf8;
       --color-info-muted: rgba(56, 189, 248, 0.14);
+
+      /* Status button-role tokens (tinted fills + matching borders) */
+      --color-danger-fill: #541c15;
+      --color-danger-fill-hover: #a44332;
+      --color-danger-border: rgba(229, 72, 77, 0.3);
+      --color-danger-border-hover: #e5484d;
+      --color-warning-fill: #4a2900;
+      --color-warning-fill-hover: #9d6506;
+      --color-warning-border: rgba(255, 178, 36, 0.3);
+      --color-warning-border-hover: #ffb224;
 
       /* Surfaces (dark-first) */
       --color-surface-ground: #0a0a0a;
@@ -102,6 +128,23 @@ defmodule PolarisUI.Tokens do
       --color-content-secondary: #525252;
       --color-content-muted: #8f8f8f;
       --color-brand-emerald-muted: rgba(62, 207, 142, 0.12);
+
+      /* Button-role brand tokens flip like the Supabase light theme:
+       * brighter fills, dark-green accents for text/icons. */
+      --color-brand-accent: #097d36;
+      --color-brand-fill: #72e3ad;
+      --color-brand-fill-hover: #81d898;
+      --color-brand-border: rgba(22, 182, 88, 0.75);
+      --color-brand-border-hover: #097d36;
+      --color-brand-deep: #d3f8e4;
+      --color-danger-fill: #fdd9d3;
+      --color-danger-fill-hover: #f8bdb4;
+      --color-danger-border: rgba(204, 47, 36, 0.3);
+      --color-danger-border-hover: #ca3214;
+      --color-warning-fill: #ffe9d6;
+      --color-warning-fill-hover: #fcd9b6;
+      --color-warning-border: rgba(220, 121, 24, 0.3);
+      --color-warning-border-hover: #dc7918;
     }
 
     /* Optional base scope — e.g. <body class="polaris"> */

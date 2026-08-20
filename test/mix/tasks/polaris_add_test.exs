@@ -3,10 +3,9 @@ defmodule Mix.Tasks.Polaris.AddTest do
   import Igniter.Test
 
   @moduledoc """
-  The base engine ships no components yet (they land in Phase 2+), so these
-  tests exercise the copy-inject pipeline with a temporary catalog fixture.
-  The fixture is written into `lib/polaris_ui/components/` — exactly where
-  real components will live — and removed afterwards.
+  These tests exercise the copy-inject pipeline with a temporary catalog
+  fixture (a `greeble` component), written into `lib/polaris_ui/components/`
+  — exactly where real components live — and removed afterwards.
   """
 
   @fixture_path "lib/polaris_ui/components/greeble.ex"
@@ -46,6 +45,19 @@ defmodule Mix.Tasks.Polaris.AddTest do
       # engine references are preserved — the dep keeps providing them
       assert content =~ "use PolarisUI.Component"
       assert content =~ "cn(["
+      # the Polaris namespace must not leak into the copy
+      refute content =~ "PolarisUI.Components"
+    end)
+  end
+
+  test "copies the shipped button component" do
+    test_project()
+    |> Igniter.compose_task("polaris.add", ["button", "--namespace", "MyAppWeb"])
+    |> assert_creates("lib/my_app_web/components/ui/button.ex", fn content ->
+      assert content =~ "defmodule MyAppWeb.Components.UI.Button do"
+      assert content =~ "def button(assigns) do"
+      # engine references are preserved — the dep keeps providing them
+      assert content =~ "use PolarisUI.Component"
       # the Polaris namespace must not leak into the copy
       refute content =~ "PolarisUI.Components"
     end)

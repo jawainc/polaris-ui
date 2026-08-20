@@ -77,6 +77,9 @@ defmodule PolarisUI.MixProject do
       source_ref: "v#{@version}",
       source_url: System.get_env("POLARIS_UI_REPO_URL"),
       groups_for_modules: [
+        Components: [
+          PolarisUI.Components.Button
+        ],
         "Component Infrastructure": [
           PolarisUI.Component,
           PolarisUI.Components,
