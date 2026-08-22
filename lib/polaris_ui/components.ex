@@ -28,8 +28,10 @@ defmodule PolarisUI.Components do
         source: "lib/polaris_ui/components/button.ex"
       }
 
-  The catalog currently holds components as they land: the `button` atom
-  and the `admonition` fragment, with more to follow.
+  The catalog currently holds components as they land: the `button` atom and
+  the `admonition`, `collapsible_alert`, `collapsible_card_section`,
+  `confirmation_modal`, `data_input`, and `empty_state_presentational`
+  fragments, with more to follow.
   """
 
   @components_dir "lib/polaris_ui/components"

@@ -22,6 +22,7 @@ defmodule PolarisUI.Tokens do
   | `--color-content-primary`      | `text-content-primary`               | `#ededed`             |
   | `--color-content-secondary`    | `text-content-secondary`             | `#a0a0a0`             |
   | `--color-content-muted`        | `text-content-muted`                 | `#707070`             |
+  | `--color-overlay`              | `bg-overlay`                         | `rgba(0,0,0,.4)` (theme-invariant) |
 
   ## Theming
 
@@ -87,6 +88,10 @@ defmodule PolarisUI.Tokens do
       --color-warning-muted: rgba(255, 178, 36, 0.14);
       --color-info: #38bdf8;
       --color-info-muted: rgba(56, 189, 248, 0.14);
+
+      /* Overlay — modal scrims. Theme-invariant by design: a modal dims its
+       * backdrop in light mode too, so there is no .polaris-light override. */
+      --color-overlay: rgba(0, 0, 0, 0.4);
 
       /* Status button-role tokens (tinted fills + matching borders) */
       --color-danger-fill: #541c15;

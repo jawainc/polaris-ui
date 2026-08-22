@@ -78,7 +78,13 @@ defmodule PolarisUI.MixProject do
       source_url: System.get_env("POLARIS_UI_REPO_URL"),
       groups_for_modules: [
         Components: [
-          PolarisUI.Components.Button
+          PolarisUI.Components.Button,
+          PolarisUI.Components.Admonition,
+          PolarisUI.Components.CollapsibleAlert,
+          PolarisUI.Components.CollapsibleCardSection,
+          PolarisUI.Components.ConfirmationModal,
+          PolarisUI.Components.DataInput,
+          PolarisUI.Components.EmptyStatePresentational
         ],
         "Component Infrastructure": [
           PolarisUI.Component,
