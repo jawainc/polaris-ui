@@ -424,10 +424,13 @@ defmodule PolarisUI.Utils do
   defp multi_group({family, sub}, _value), do: {family, sub}
 
   # `border-{side}-{value}`: width / style / color are decided by the value.
+  # A bare side letter as the *whole* value (`border-r`, `border-x`) is the
+  # implicit 1px width utility for that side — never a color.
   defp border_group(side, value) do
     cond do
       value in @border_styles -> {:border_style, side}
       width_value?(value) -> {:border_width, side}
+      side == "" and value in ~w(x y t r b l s e) -> {:border_width, value}
       true -> {:border_color, side}
     end
   end

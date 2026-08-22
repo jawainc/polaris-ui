@@ -30,8 +30,9 @@ defmodule PolarisUI.Components do
 
   The catalog currently holds components as they land: the `button` atom and
   the `admonition`, `collapsible_alert`, `collapsible_card_section`,
-  `confirmation_modal`, `data_input`, and `empty_state_presentational`
-  fragments, with more to follow.
+  `confirmation_modal`, `data_input`, `empty_state_presentational`,
+  `error_display`, `filter_bar`, `form_item_layout`, `info_tooltip`, and
+  `inner_side_menu` fragments, with more to follow.
   """
 
   @components_dir "lib/polaris_ui/components"

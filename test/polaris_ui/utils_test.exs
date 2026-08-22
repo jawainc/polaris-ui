@@ -31,6 +31,14 @@ defmodule PolarisUI.UtilsTest do
       assert Utils.cn("border-t-emerald-500 border-brand-emerald") == "border-brand-emerald"
     end
 
+    test "bare border-side utilities are widths, not colors" do
+      # `border-r` is the implicit 1px width for that side — a following
+      # all-sides color must not drop it (and vice versa).
+      assert Utils.cn("border-r border-surface-border") == "border-r border-surface-border"
+      assert Utils.cn("border-surface-border border-x") == "border-surface-border border-x"
+      assert Utils.cn("border-r border-red-500 border-t") == "border-r border-red-500 border-t"
+    end
+
     test "text size, color, and alignment do not conflict" do
       assert Utils.cn("text-xs text-sm") == "text-sm"
       assert Utils.cn("text-brand-emerald text-content-secondary") == "text-content-secondary"

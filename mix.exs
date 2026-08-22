@@ -84,7 +84,12 @@ defmodule PolarisUI.MixProject do
           PolarisUI.Components.CollapsibleCardSection,
           PolarisUI.Components.ConfirmationModal,
           PolarisUI.Components.DataInput,
-          PolarisUI.Components.EmptyStatePresentational
+          PolarisUI.Components.EmptyStatePresentational,
+          PolarisUI.Components.ErrorDisplay,
+          PolarisUI.Components.FilterBar,
+          PolarisUI.Components.FormItemLayout,
+          PolarisUI.Components.InfoTooltip,
+          PolarisUI.Components.InnerSideMenu
         ],
         "Component Infrastructure": [
           PolarisUI.Component,
