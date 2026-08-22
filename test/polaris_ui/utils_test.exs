@@ -120,4 +120,43 @@ defmodule PolarisUI.UtilsTest do
       end
     end
   end
+
+  describe "slot_content?/2" do
+    test "an empty slot list is no content" do
+      refute Utils.slot_content?([], %{})
+    end
+
+    test "detects content behind closure inner blocks (dynamic templates)" do
+      content = %{inner_block: fn _assigns, _arg -> ["Create table"] end}
+      assert Utils.slot_content?([content], %{})
+    end
+
+    test "whitespace-only closures are blank" do
+      blank = %{inner_block: fn _assigns, _arg -> [" \n "] end}
+      refute Utils.slot_content?([blank], %{})
+    end
+
+    test "detects content behind inlined Rendered inner blocks (static templates)" do
+      rendered = %Phoenix.LiveView.Rendered{
+        static: ["Create table"],
+        dynamic: fn _changed -> [] end,
+        fingerprint: 1,
+        root: nil
+      }
+
+      assert Utils.slot_content?([%{inner_block: rendered}], %{})
+    end
+
+    test "closures render against the component assigns, like render_slot" do
+      assigns = %{label: "Deploy project"}
+
+      entry = %{inner_block: fn assigns, _arg -> [assigns.label] end}
+
+      assert Utils.slot_content?([entry], assigns)
+    end
+
+    test "a nil inner block is blank, not a crash" do
+      refute Utils.slot_content?([%{inner_block: nil}], %{})
+    end
+  end
 end

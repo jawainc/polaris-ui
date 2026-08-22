@@ -145,7 +145,7 @@ defmodule PolarisUI.Components.Button do
     # LV creates an inner_block even when the do-block holds only <:icon>
     # entries (its content is then whitespace), so blank-render is the only
     # reliable signal for icon-only buttons.
-    icon_only? = not has_label_content?(assigns.inner_block)
+    icon_only? = not slot_content?(assigns.inner_block, assigns)
 
     if icon_only? and not Map.has_key?(assigns.rest, :"aria-label") and
          not Map.has_key?(assigns.rest, :"aria-labelledby") do
@@ -233,22 +233,6 @@ defmodule PolarisUI.Components.Button do
       raise ArgumentError,
             "invalid value for :#{name}: #{inspect(value)} — expected one of #{inspect(allowed)}"
     end
-  end
-
-  # Whitespace-only inner content (e.g. formatting around a <:icon> slot)
-  # still counts as "no label" for icon-only rendering and a11y checks.
-  # `render_slot/1` only works inside templates, so the slot's Rendered
-  # struct is rendered directly instead.
-  defp has_label_content?([]), do: false
-
-  defp has_label_content?(slots) do
-    slots
-    |> Enum.any?(fn entry ->
-      entry.inner_block
-      |> Phoenix.HTML.Safe.to_iodata()
-      |> IO.iodata_to_binary()
-      |> String.trim() != ""
-    end)
   end
 
   defp base_classes do

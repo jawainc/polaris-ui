@@ -28,8 +28,8 @@ defmodule PolarisUI.Components do
         source: "lib/polaris_ui/components/button.ex"
       }
 
-  The catalog currently holds the Phase 1 atoms as they land, starting with
-  `button`.
+  The catalog currently holds components as they land: the `button` atom
+  and the `admonition` fragment, with more to follow.
   """
 
   @components_dir "lib/polaris_ui/components"

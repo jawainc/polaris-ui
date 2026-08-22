@@ -69,6 +69,52 @@ defmodule PolarisUI.Utils do
     |> Enum.join(" ")
   end
 
+  @doc """
+  Returns whether a slot list carries renderable, non-whitespace content.
+
+  Slot entries arrive in two shapes depending on how the *calling* template
+  was compiled: statically-inlined entries hold a `Phoenix.LiveView.Rendered`
+  inner block, while entries with dynamic content (or calls inside a
+  comprehension) hold an arity-2 closure that must be invoked with the
+  component's own assigns — exactly what `render_slot/2` does. Both are
+  rendered here so blank-detection works in every context:
+
+      iex> slot_content?([], %{})
+      false
+
+      iex> entry = %{inner_block: fn _assigns, _arg -> ["Create table"] end}
+      iex> slot_content?([entry], %{})
+      true
+
+      iex> blank = %{inner_block: fn _assigns, _arg -> [" \\n "] end}
+      iex> slot_content?([blank], %{})
+      false
+
+  """
+  @spec slot_content?(slots :: [map()], assigns :: map()) :: boolean()
+  def slot_content?([], _assigns), do: false
+
+  def slot_content?(slots, assigns) when is_list(slots) do
+    Enum.any?(slots, fn entry ->
+      entry
+      |> slot_to_iodata(assigns)
+      |> IO.iodata_to_binary()
+      |> String.trim() != ""
+    end)
+  end
+
+  defp slot_to_iodata(%{inner_block: %Phoenix.LiveView.Rendered{} = rendered}, _assigns) do
+    Phoenix.HTML.Safe.to_iodata(rendered)
+  end
+
+  defp slot_to_iodata(%{inner_block: inner_block}, assigns) when is_function(inner_block, 2) do
+    inner_block
+    |> apply([assigns, nil])
+    |> Phoenix.HTML.Safe.to_iodata()
+  end
+
+  defp slot_to_iodata(%{inner_block: nil}, _assigns), do: []
+
   ## Normalization
 
   defp to_classes(input) do

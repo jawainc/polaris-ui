@@ -20,6 +20,8 @@ defmodule PolarisUI.Component do
       `assign/3`, the `~H` sigil, and friends.
     * `cn/1` from `PolarisUI.Utils` — the Tailwind-aware class merger used to
       merge default classes with the caller's `class` attribute.
+    * `slot_content?/2` from `PolarisUI.Utils` — blank-detection for slot
+      lists that works for both statically-inlined and closure inner blocks.
 
   This module is provided by the `polaris_ui` engine dependency; it stays
   available even after component sources are copied into your application via
@@ -29,7 +31,7 @@ defmodule PolarisUI.Component do
   defmacro __using__(_opts) do
     quote do
       use Phoenix.Component
-      import PolarisUI.Utils, only: [cn: 1]
+      import PolarisUI.Utils, only: [cn: 1, slot_content?: 2]
     end
   end
 end
