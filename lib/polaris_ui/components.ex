@@ -28,16 +28,18 @@ defmodule PolarisUI.Components do
         source: "lib/polaris_ui/components/button.ex"
       }
 
-  The catalog currently holds components as they land: the `button` atom; the
-  `admonition`, `collapsible_alert`, `collapsible_card_section`,
-  `confirmation_modal`, `data_input`, `empty_state_presentational`,
-  `error_display`, `filter_bar`, `form_item_layout`, `info_tooltip`, and
-  `inner_side_menu` fragments; the `breadcrumb` and `nav_menu` primitives;
-  and the `key_value_field_array`, `logs_bar_chart`, `metric_card`,
+  The catalog currently holds components as they land: the `button`,
+  `accordion`, `alert`, `alert_dialog`, `aspect_ratio`, `avatar`, and
+  `badge` atoms; the `admonition`, `collapsible_alert`,
+  `collapsible_card_section`, `confirmation_modal`, `data_input`,
+  `empty_state_presentational`, `error_display`, `filter_bar`,
+  `form_item_layout`, `info_tooltip`, and `inner_side_menu` fragments;
+  the `breadcrumb` and `nav_menu` primitives; and the
+  `key_value_field_array`, `logs_bar_chart`, `metric_card`,
   `multi_select`, `page_breadcrumbs`, `page_container`, `page_header`,
-  `page_nav`, `page_section`, `single_value_field_array`, `skip_to_content`,
-  `status_code`, `text_confirm_dialog`, and `toc` fragments, with more to
-  follow.
+  `page_nav`, `page_section`, `single_value_field_array`,
+  `skip_to_content`, `status_code`, `text_confirm_dialog`, and `toc`
+  fragments, with more to follow.
   """
 
   @components_dir "lib/polaris_ui/components"
