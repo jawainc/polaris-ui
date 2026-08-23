@@ -80,6 +80,7 @@ defmodule PolarisUI.MixProject do
         Components: [
           PolarisUI.Components.Button,
           PolarisUI.Components.Admonition,
+          PolarisUI.Components.Breadcrumb,
           PolarisUI.Components.CollapsibleAlert,
           PolarisUI.Components.CollapsibleCardSection,
           PolarisUI.Components.ConfirmationModal,
@@ -89,7 +90,16 @@ defmodule PolarisUI.MixProject do
           PolarisUI.Components.FilterBar,
           PolarisUI.Components.FormItemLayout,
           PolarisUI.Components.InfoTooltip,
-          PolarisUI.Components.InnerSideMenu
+          PolarisUI.Components.InnerSideMenu,
+          PolarisUI.Components.KeyValueFieldArray,
+          PolarisUI.Components.LogsBarChart,
+          PolarisUI.Components.MetricCard,
+          PolarisUI.Components.MultiSelect,
+          PolarisUI.Components.NavMenu,
+          PolarisUI.Components.PageBreadcrumbs,
+          PolarisUI.Components.PageContainer,
+          PolarisUI.Components.PageHeader,
+          PolarisUI.Components.PageNav
         ],
         "Component Infrastructure": [
           PolarisUI.Component,
