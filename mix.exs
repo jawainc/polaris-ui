@@ -99,7 +99,13 @@ defmodule PolarisUI.MixProject do
           PolarisUI.Components.PageBreadcrumbs,
           PolarisUI.Components.PageContainer,
           PolarisUI.Components.PageHeader,
-          PolarisUI.Components.PageNav
+          PolarisUI.Components.PageNav,
+          PolarisUI.Components.PageSection,
+          PolarisUI.Components.SingleValueFieldArray,
+          PolarisUI.Components.SkipToContent,
+          PolarisUI.Components.StatusCode,
+          PolarisUI.Components.TextConfirmDialog,
+          PolarisUI.Components.Toc
         ],
         "Component Infrastructure": [
           PolarisUI.Component,

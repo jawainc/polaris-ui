@@ -34,8 +34,10 @@ defmodule PolarisUI.Components do
   `error_display`, `filter_bar`, `form_item_layout`, `info_tooltip`, and
   `inner_side_menu` fragments; the `breadcrumb` and `nav_menu` primitives;
   and the `key_value_field_array`, `logs_bar_chart`, `metric_card`,
-  `multi_select`, `page_breadcrumbs`, `page_container`, `page_header`, and
-  `page_nav`-family fragments, with more to follow.
+  `multi_select`, `page_breadcrumbs`, `page_container`, `page_header`,
+  `page_nav`, `page_section`, `single_value_field_array`, `skip_to_content`,
+  `status_code`, `text_confirm_dialog`, and `toc` fragments, with more to
+  follow.
   """
 
   @components_dir "lib/polaris_ui/components"
