@@ -24,6 +24,10 @@ defmodule PolarisUI.Tokens do
   | `--color-content-muted`        | `text-content-muted`                 | `#707070`             |
   | `--color-overlay`              | `bg-overlay`                         | `rgba(0,0,0,.4)` (theme-invariant) |
 
+  Layout tokens live alongside the palette — `--card-padding-x`
+  (default `1rem`) drives the shared horizontal rhythm of the card
+  sections.
+
   ## Theming
 
   Polaris is **dark-mode-first**: the dark palette is defined on `:root` (via
@@ -115,6 +119,11 @@ defmodule PolarisUI.Tokens do
       --color-content-primary: #ededed;
       --color-content-secondary: #a0a0a0;
       --color-content-muted: #707070;
+
+      /* Layout — card sections share this horizontal padding (the Supabase
+       * --card-padding-x token; components reference it with a 1rem fallback
+       * so installs predating the token keep rendering). */
+      --card-padding-x: 1rem;
 
       /* Typography — monospaced data controls are a Polaris signature */
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

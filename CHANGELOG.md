@@ -86,6 +86,77 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the only variant with a hover). Renders a `<span>` so badges sit
   inline in links and paragraphs; no size variants, dot props, or
   interactive affordances upstream — and none added.
+- `PolarisUI.Components.Calendar` — the month-grid date picker, styled
+  1:1 after the Supabase `packages/ui` Calendar (a react-day-picker v9
+  wrapper): the bordered `p-3` surface, centered caption between two
+  absolutely-positioned chevron nav buttons (`h-7 w-7`, half-opacity
+  until hover, `aria-disabled` at the bounds), a `role="grid"` table
+  with flex weekday rows (`w-9` narrow labels with full-name
+  `aria-label`s) and 36px day buttons (`h-9 w-9` ghost + the source's
+  `aria-selected` hover suppressions). `single` and `range` modes:
+  selected days fill with the signature emerald + near-black text for
+  WCAG-safe contrast; complete ranges tint middles with the muted brand
+  fill and round only the end caps; today carries a quiet panel chip.
+  A colocated runtime hook owns months, selection, and the react-day-picker
+  keyboard standard client-side (month regeneration with the same markup,
+  RDP toggle/range semantics, min/max clamping, one tab stop with
+  arrows / Home / End / PageUp / PageDown navigation, `aria-live`
+  caption announcements, re-render after LiveView patches, and an
+  optional `on_select` event with mode-shaped payloads). Outside days
+  dim (`opacity-50`), out-of-bound days stay focusable-but-inert
+  (`aria-disabled`, no hover), and `week_starts_on` rotates the header.
+- `PolarisUI.Components.Card` — the bordered content surface, styled 1:1
+  after the Supabase `packages/ui` Card: clipped corners
+  (`overflow-hidden rounded-lg`), panel fill, high-contrast border, and
+  the hairline `shadow-xs`; sectioned header/content/footer sharing the
+  `px-[var(--card-padding-x,1rem)]` rhythm (the Supabase
+  `--card-padding-x` token, now shipped in `PolarisUI.Tokens` with a
+  fallback for pre-existing installs) with `border-b` separators —
+  dropped via `last:border-none` when no footer follows; the title is
+  the signature 12px monospaced uppercase `<h3>`. Presentational by
+  design: interactive states belong to the controls composed inside.
+- `PolarisUI.Components.Carousel` — the slideshow with motion and swipe,
+  ported from the shadcn/ui Carousel that the Supabase design system
+  documents (Supabase ships no source of its own): the
+  `role="region"`/`aria-roledescription="carousel"` root, snapped
+  scroll viewport (scrollbar-hidden, `cursor-grab` drag) wrapping the
+  flex track with the `-ml-4`/`pl-4` spacing model, `basis-full
+  snap-start` slides (`role="group"`), and the 32px circular outline
+  prev/next buttons floated outside the viewport edges (rotated 90°
+  for `orientation="vertical"`, which subcomponents take explicitly —
+  the shadcn context made literal). The embla engine becomes a
+  colocated runtime hook over CSS scroll-snap: snap-point prev/next
+  scrolling, button enablement at the bounds, arrow-key navigation,
+  mouse drag with post-drag click suppression, and an optional
+  `on_change` event with `%{"selected" => index, "count" => slides}`
+  for slide counters.
+- `PolarisUI.Components.Checkbox` — the boolean control, styled 1:1
+  after the Supabase `packages/ui` Checkbox (shadcn over Radix): the
+  16px `rounded-sm` box over a faint panel fill, inverting on check to
+  the bright fill + dark check (the source's foreground/background
+  inversion — never emerald), with cross-fading Check (strokeWidth 4)
+  and mixed-state dash indicators. A colocated runtime hook owns the
+  Radix toggle cycle (unchecked → checked → unchecked, indeterminate →
+  checked), syncs a visually-hidden native checkbox for form
+  participation — dispatching bubbling `input`/`change` so `phx-change`
+  forms observe toggles — and optionally pushes `on_change` with the
+  state and value. The paired `<label for>` dims through the `peer`
+  relationship; disabled boxes take the explicit Safari `tabindex="-1"`
+  fix; focus is the shared emerald ring.
+- `PolarisUI.Components.Collapsible` — the low-level disclosure
+  primitive, ported from the Supabase `packages/ui` Collapsible (a
+  near-passthrough over Radix): slot-based `:trigger`/`:content`
+  composition with derived id wiring (`aria-expanded` +
+  `aria-controls`, `role="region"` + `aria-labelledby`). The unstyled
+  Supabase primitive gains only the shared interaction states (cursor,
+  focus ring, disabled with the explicit Safari tabindex fix); the
+  150ms ease-out `grid-template-rows` height animation (closed regions
+  `invisible`) ships by default — the Supabase docs' opt-in
+  `animate-collapsible-up/down` made standard — disabled under
+  `prefers-reduced-motion` and opt-out via `class="transition-none"`.
+  A colocated runtime hook owns the open state (seeded from
+  `default_open`, re-applied after LiveView patches, refusing disabled
+  roots/triggers) and optionally pushes `on_change` with the state.
 - `PolarisUI.Components.Admonition` — the callout pattern, styled 1:1 after
   the Supabase fragment `ui-patterns/Admonition` (on its shadcn `Alert`
   primitive): eight semantic types (`note`, `default`, `caution`,

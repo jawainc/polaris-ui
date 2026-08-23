@@ -29,8 +29,9 @@ defmodule PolarisUI.Components do
       }
 
   The catalog currently holds components as they land: the `button`,
-  `accordion`, `alert`, `alert_dialog`, `aspect_ratio`, `avatar`, and
-  `badge` atoms; the `admonition`, `collapsible_alert`,
+  `accordion`, `alert`, `alert_dialog`, `aspect_ratio`, `avatar`,
+  `badge`, `calendar`, `card`, `carousel`, `checkbox`, and `collapsible`
+  atoms; the `admonition`, `collapsible_alert`,
   `collapsible_card_section`, `confirmation_modal`, `data_input`,
   `empty_state_presentational`, `error_display`, `filter_bar`,
   `form_item_layout`, `info_tooltip`, and `inner_side_menu` fragments;
