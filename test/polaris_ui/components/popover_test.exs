@@ -142,6 +142,24 @@ defmodule PolarisUI.Components.PopoverTest do
       assert html =~ ~s/{ bottom: "top", top: "bottom", right: "left", left: "right" }/
       assert html =~ "sameWidth"
     end
+
+    test "the panel enters with the source's per-side slide animation" do
+      html = render_popover(%{})
+
+      assert html =~ "_animateIn(this._content(), root.dataset.side)"
+      assert html =~ ~s{side === "top"}
+      assert html =~ "translateY(0.5rem)"
+      assert html =~ "translateY(-0.5rem)"
+      assert html =~ "translateX(-0.5rem)"
+      assert html =~ "translateX(0.5rem)"
+    end
+
+    test "the animation only replays on closed→open transitions" do
+      html = render_popover(%{})
+
+      assert html =~ "const wasOpen = this._open"
+      assert html =~ "if (!wasOpen) this._animateIn(this._content(), this.el.dataset.side)"
+    end
   end
 
   describe "attributes" do

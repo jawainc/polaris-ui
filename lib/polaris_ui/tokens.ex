@@ -26,8 +26,10 @@ defmodule PolarisUI.Tokens do
 
   Layout tokens live alongside the palette — `--card-padding-x`
   (default `1rem`) drives the shared horizontal rhythm of the card
-  sections, and `--animate-caret-blink` powers the input OTP's fake
-  caret (the Supabase docs' `caret-blink` keyframes).
+  sections, `--animate-caret-blink` powers the input OTP's fake caret
+  (the Supabase docs' `caret-blink` keyframes), and
+  `--animate-progress-indeterminate` sweeps the Progress bar's
+  unknown-duration state.
 
   ## Theming
 
@@ -140,6 +142,19 @@ defmodule PolarisUI.Tokens do
         }
         20%, 50% {
           opacity: 0;
+        }
+      }
+
+      /* Motion — the progress bar's indeterminate sweep (the half-width
+       * segment traveling the track when duration is unknown) */
+      --animate-progress-indeterminate: progress-indeterminate 1.5s ease-in-out infinite;
+
+      @keyframes progress-indeterminate {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(200%);
         }
       }
     }

@@ -34,7 +34,8 @@ defmodule PolarisUI.Components do
   `command`, `command_menu`, `context_menu`, `date_picker`, `dialog`,
   `drawer`, `dropdown_menu`, `expanding_textarea`, `field`, `form`,
   `hover_card`, `input`, `input_otp`, `keyboard_shortcut`, `label`,
-  `menubar`, `mermaid`, and `popover` atoms; the `admonition`,
+  `menubar`, `mermaid`, `navigation_menu`, `pagination`, `popover`,
+  `progress`, and `radio_group` atoms; the `admonition`,
   `collapsible_alert`, `collapsible_card_section`, `confirmation_modal`,
   `data_input`, `empty_state_presentational`, `error_display`,
   `filter_bar`, `form_item_layout`, `info_tooltip`, and

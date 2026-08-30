@@ -226,6 +226,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   flip (dark 14px / light 13px font switch included); re-renders are
   keyed off a chart+theme hash and the canvas sits in a
   `phx-update="ignore"` subtree.
+- `PolarisUI.Components.NavigationMenu` — the header navigation bar with
+  hover/click mega-menu panels, ported from the Supabase
+  `packages/ui` NavigationMenu (shadcn over the Radix primitive): the
+  `nav` root with the indicator diamond (the rotated `top-[60%]` square
+  fading in under the open trigger), the `space-x-1` list, the `h-10`
+  trigger with its auto-appended chevron rotating 180° on
+  `data-state=open` (`navigationMenuTriggerStyle` cva over Polaris
+  tokens — accent surfaces on hover/focus and while open), the panel,
+  and the link. Where the source portals contents into the shared
+  NavigationMenuViewport, the colocated runtime hook keeps panels in
+  their items' DOM (LiveView-patch-safe) and positions them `fixed`,
+  centered under the bar with the viewport's own panel treatment,
+  clamped to the window; switching slides the new panel in from its
+  trigger's direction (`from-start`/`from-end` motion). The Radix
+  interaction model: click toggles, hover opens after a delay and
+  switches instantly while open, pointer-leave closes after a grace
+  period, Escape / click- / focus-outside close and refocus;
+  ArrowLeft/Right roam triggers (switching open menus), ArrowDown opens
+  and focuses the first panel control, Tab flows through panel links
+  naturally; state re-syncs after LiveView patches and repositions on
+  resize. The source's `renderViewport={false}` responsive scroll
+  pattern composes by wrapping the list.
+- `PolarisUI.Components.Pagination` — page navigation with previous and
+  next links, ported from the shadcn Pagination the Supabase docs
+  declare (the Supabase repo ships no implementation of its own): the
+  `aria-label`ed nav landmark with the centered row, `pagination_item`
+  `<li>`s, ghost `pagination_link`s swapping to the bordered outline
+  fill when `is_active` (`aria-current="page"`, the source's
+  `buttonVariants` ghost/outline swap over Polaris tokens and
+  26/34/38px height scale), `pagination_previous`/`pagination_next`
+  with the source's chevrons, `hidden sm:inline` verbs, and
+  "Go to previous/next page" labels (relabel via the inner block), and
+  the `pagination_ellipsis` dots with `sr-only` "More pages". Links are
+  anchors — `href` for navigation or `phx-click`/`phx-value-page` for
+  LiveView paging; anchors have no native disabled, so the disabled
+  styling keys off `aria-disabled`.
+- `PolarisUI.Components.Progress` — the completion indicator, ported
+  1:1 from the Supabase `packages/ui` Progress (shadcn over Radix): the
+  4px pill track on a muted surface tone with the bright
+  `bg-content-primary` fill translating by the remaining percentage
+  (computed server-side from `value`/`max`, clamped, `transition-all`
+  smoothing between renders), `role="progressbar"` carrying
+  `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (omitted when
+  unknown, the Radix `data-state="indeterminate"` contract, fill
+  parked). The explicit `indeterminate` mode sweeps a half-width
+  segment on the new `--animate-progress-indeterminate` token keyframes
+  (added to `PolarisUI.Tokens`) for work with no known duration. No
+  hook: progress updates ride ordinary LiveView patches.
+- `PolarisUI.Components.RadioGroup` — the mutually exclusive
+  single-select, porting the full Supabase `packages/ui` family: the
+  base `radio_group` (16px circles with the filled brand dot and paired
+  `<label for>`), `radio_group_card` (the `w-48` tiles — visual content
+  above the label row, `show_indicator` to drop the circle), and
+  `radio_group_stacked` (full-width segments joined with `-space-y-px`,
+  first/last rounded, hover and check brightening the surface, `label`
+  plus one-sentence `description`). One colocated runtime hook owns the
+  Radix state machine for all three: click or arrows check (radios
+  never uncheck), roving tabindex (checked item, else first enabled),
+  seeding from per-item `checked` or the root `value`, re-application
+  after LiveView patches, and syncing the hidden `name` input (bubbling
+  `input`/`change` for `phx-change` forms) plus the optional
+  `on_change` push with `%{"value" => value}`. Arrow keys wrap,
+  Home/End bound the list; disabled locks native, dims, drops from the
+  tab order, and is skipped by arrows.
+- `PolarisUI.Components.NavMenu` — the tab-style sub-navigation row
+  gains the source item's `focus-ring` treatment (emerald
+  `focus-visible` ring with offset) alongside its active/hover/disabled
+  states.
+- `PolarisUI.Components.Popover` — the panel now enters with the
+  source's animation — a fade plus the per-side slide from the
+  trigger's edge (`data-[side=bottom]:slide-in-from-top-2` & co.),
+  fired only on closed→open transitions so LiveView patches never
+  replay it.
 - `PolarisUI.Components.Admonition` — the callout pattern, styled 1:1 after
   the Supabase fragment `ui-patterns/Admonition` (on its shadcn `Alert`
   primitive): eight semantic types (`note`, `default`, `caution`,

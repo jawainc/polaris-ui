@@ -34,9 +34,13 @@ defmodule PolarisUI.Components.NavMenu do
 
     * **active** — `aria-selected`, bright label, 2px bottom border;
       inactive items brighten on hover.
-    * **focus** — slotted triggers own their focus ring; the item passes
-      pointer/text styles through (`text-inherit` on the trigger keeps
-      the item's state colors in charge).
+    * **focus** — the item carries the source's `focus-ring` treatment
+      (emerald ring with offset on `:focus-visible`) for the rare
+      programmatic focus on the `<li>` itself; slotted triggers own
+      their own rings (`text-inherit` on the trigger keeps the item's
+      state colors in charge).
+    * **disabled** — `disabled:pointer-events-none disabled:opacity-50`,
+      like the source item.
   """
 
   use PolarisUI.Component
@@ -96,6 +100,8 @@ defmodule PolarisUI.Components.NavMenu do
           "text-sm transition-colors *:py-1.5",
           "text-content-muted hover:text-content-primary",
           "data-[state=active]:text-content-primary data-[state=active]:border-content-primary",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald",
+          "focus-visible:ring-offset-2 focus-visible:ring-offset-surface-ground",
           "disabled:pointer-events-none disabled:opacity-50",
           @class
         ])

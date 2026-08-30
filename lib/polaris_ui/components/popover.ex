@@ -47,6 +47,8 @@ defmodule PolarisUI.Components.Popover do
   room (the Radix collision behavior, simplified). `same_width` pins
   the panel to the trigger's width — the source's
   `sameWidthAsTrigger` CSS-module trick — for dropdown-style menus.
+  On open, the panel enters with the source's animation: a fade plus
+  the per-side slide from the trigger's edge.
 
   ## Keyboard
 
@@ -215,12 +217,15 @@ defmodule PolarisUI.Components.Popover do
 
           if (this._open) {
             this._position()
+            this._animateIn(this._content(), root.dataset.side)
           }
         },
         updated() {
+          const wasOpen = this._open
           this._open = this.el.dataset.state === "open"
           if (this._open) {
             this._position()
+            if (!wasOpen) this._animateIn(this._content(), this.el.dataset.side)
           }
         },
         destroyed() {
@@ -230,6 +235,25 @@ defmodule PolarisUI.Components.Popover do
           this.el.removeEventListener("click", this._onClick)
           document.removeEventListener("keydown", this._onKeydown, true)
           document.removeEventListener("click", this._onDocumentClick)
+        },
+        // The source's entrance: animate-in fade plus the per-side slide
+        // (data-[side=bottom]:slide-in-from-top-2, …) — the panel drops
+        // in from its trigger's edge, and only on closed→open
+        // transitions so LiveView patches never replay it.
+        _animateIn(content, side) {
+          if (!content || typeof content.animate !== "function") return
+          const slide =
+            side === "top"
+              ? "translateY(0.5rem)"
+              : side === "right"
+                ? "translateX(-0.5rem)"
+                : side === "left"
+                  ? "translateX(0.5rem)"
+                  : "translateY(-0.5rem)"
+          content.animate(
+            [{ opacity: 0, transform: slide }, { opacity: 1, transform: "none" }],
+            { duration: 150, easing: "ease-out" }
+          )
         },
         // Absolute positioning inside the relative root, measured from the
         // trigger — side/align/offset with a viewport flip, like Radix.

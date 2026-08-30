@@ -88,6 +88,25 @@ defmodule PolarisUI.Components.NavMenuTest do
       assert item =~ "data-[state=active]:text-content-primary"
       assert item =~ "data-[state=active]:border-content-primary"
     end
+
+    test "items carry the source's focus-ring treatment" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <.nav_menu>
+          <.nav_menu_item><button type="button">Overview</button></.nav_menu_item>
+        </.nav_menu>
+        """)
+
+      item = class_of(html, "data-polaris-nav-menu-item")
+
+      assert item =~
+               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald"
+
+      assert item =~ "focus-visible:ring-offset-2 focus-visible:ring-offset-surface-ground"
+      assert item =~ "disabled:pointer-events-none disabled:opacity-50"
+    end
   end
 
   describe "customization" do
