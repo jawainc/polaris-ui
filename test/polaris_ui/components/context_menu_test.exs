@@ -44,8 +44,12 @@ defmodule PolarisUI.Components.ContextMenuTest do
         Show hidden files
       </.context_menu_checkbox_item>
       <.context_menu_group>
-        <.context_menu_radio_item checked={@show_hidden} phx-click="pick-sort">Sort by name</.context_menu_radio_item>
-        <.context_menu_radio_item checked={false} phx-click="pick-sort">Sort by size</.context_menu_radio_item>
+        <.context_menu_radio_item checked={@show_hidden} phx-click="pick-sort">
+          Sort by name
+        </.context_menu_radio_item>
+        <.context_menu_radio_item checked={false} phx-click="pick-sort">
+          Sort by size
+        </.context_menu_radio_item>
       </.context_menu_group>
       <.context_menu_sub>
         <.context_menu_sub_trigger>Invite members</.context_menu_sub_trigger>

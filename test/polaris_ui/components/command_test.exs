@@ -157,7 +157,10 @@ defmodule PolarisUI.Components.CommandTest do
       html = render_command(%{})
 
       assert html =~ "data-polaris-command-group-heading"
-      assert html =~ "px-2 py-1.5 text-xs font-normal font-mono uppercase tracking-wider text-content-muted"
+
+      assert html =~
+               "px-2 py-1.5 text-xs font-normal font-mono uppercase tracking-wider text-content-muted"
+
       assert html =~ "Suggestions"
       assert html =~ "Settings"
     end
@@ -213,7 +216,9 @@ defmodule PolarisUI.Components.CommandTest do
     test "carry the source CommandItem classes with selected/disabled states" do
       html = render_command(%{})
 
-      assert html =~ "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-xs outline-none"
+      assert html =~
+               "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-xs outline-none"
+
       assert html =~ "data-[selected=true]:bg-surface-panel-hover"
       assert html =~ "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50"
     end

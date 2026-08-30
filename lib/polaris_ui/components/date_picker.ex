@@ -397,7 +397,8 @@ defmodule PolarisUI.Components.DatePicker do
         if Date.compare(to, from) == :lt, do: raise_to_before_from(from, to), else: :ok
 
       other ->
-        raise ArgumentError, "PolarisUI date_picker: range `to` must be a Date or nil, got: #{inspect(other)}."
+        raise ArgumentError,
+              "PolarisUI date_picker: range `to` must be a Date or nil, got: #{inspect(other)}."
     end
   end
 

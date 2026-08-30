@@ -290,6 +290,82 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `on_change` push with `%{"value" => value}`. Arrow keys wrap,
   Home/End bound the list; disabled locks native, dims, drops from the
   tab order, and is skipped by arrows.
+- `PolarisUI.Components.Select` — the single-choice dropdown, ported
+  from the Supabase `packages/ui` Select (shadcn over the Radix
+  primitive): the trigger with the full
+  `tiny`/`small`/`medium`/`large`/`xlarge` size scale (the source's
+  `SIZE_VARIANTS`, `small` default), server-resolved selected label or
+  muted placeholder (`data-placeholder`), and the 1.5-stroke chevron;
+  the fixed-position `role="listbox"` popup (`z-50 max-h-96 min-w-32`,
+  trigger-pinned width, side/align/offset with viewport flip,
+  fade-zoom-slide entrance) with scroll chevron buttons that appear
+  only while the list scrolls; options as `role="option"` rows with
+  the reserved `left-2` indicator slot — the checked item carrying
+  the filled circle (`bg-content-primary rounded-full`) with the bold
+  knocked-out check (stroke-width 6) — under the source's uppercase
+  mono group labels (`%{group:}` keying, one label per consecutive
+  run, hairline separators between runs). Options are data (`"Apple"`
+  or `%{value:, label:, disabled:, group:}` maps) so the trigger label
+  and hidden `name` input resolve server-side; one colocated runtime
+  hook owns open/close and selection client-side (re-applied after
+  LiveView patches): Enter opens at the first item, Space/arrows at
+  the selected, arrows cycle, Home/End bound, Enter/Space pick,
+  typeahead jumps, Escape/Tab close and refocus the trigger, hover
+  highlights via real DOM focus; selection syncs the hidden input
+  (bubbling `input`/`change` for `phx-change` forms) and pushes the
+  optional `on_change` event with `%{"value" => value}`. Per-option
+  `disabled` greys and skips rows; `disabled` locks the trigger;
+  `loading` swaps the chevron for the brand spinner (`aria-busy`).
+- `PolarisUI.Components.Separator` — the hairline divider, ported 1:1
+  from the Supabase `packages/ui` Separator (shadcn over Radix): a
+  plain `<div>` with `shrink-0 bg-surface-border` (the source's
+  `bg-border-muted` compat alias), `h-px w-full` horizontal /
+  `h-full w-px` vertical (sized by its container), `data-orientation`
+  always rendered. Like the source, `decorative` defaults to `true`
+  (`role="none"`, removed from the a11y tree); `decorative={false}`
+  carries `role="separator"` with `aria-orientation` only when
+  vertical (horizontal is the ARIA default). No hook.
+- `PolarisUI.Components.ScrollArea` — native scrolling with styled
+  overlay scrollbars, ported from the Supabase `packages/ui`
+  ScrollArea (shadcn over Radix): the `relative overflow-hidden` root,
+  the native-scrolling viewport with native scrollbars hidden
+  (`[scrollbar-width:none]` + `[&::-webkit-scrollbar]:hidden`) and
+  `min-w-full` content sizing, and the absolutely-positioned overlay
+  tracks (`w-2.5`, `p-px` plus the 1px transparent border keeping the
+  8px `rounded-full bg-surface-border` pill thumb centered, taking no
+  layout space). `orientation` picks `vertical` (the source default —
+  one vertical bar), `horizontal` (the explicit ScrollBar child), or
+  `both`; `type` picks the Radix visibility flavors — `hover` (the
+  default; visible under the pointer, hidden 600ms after it leaves),
+  `scroll`, `always`, `auto` — riding `data-state=visible|hidden`
+  with opacity fades. One colocated runtime hook measures the
+  viewport, sizes/positions thumbs, scrolls on thumb drag (pointer +
+  touch), reveals/hides per the type, and re-measures on scroll,
+  ResizeObserver resize, and LiveView patches; bars with nothing to
+  scroll stay hidden (`data-overflow=false`).
+- `PolarisUI.Components.Resizable` — draggable, keyboard-resizable
+  panel groups, ported from the Supabase `packages/ui` Resizable over
+  `react-resizable-panels` v4: the `flex h-full w-full` group
+  (`flex-col` when `orientation="vertical"`, `group/resizable` +
+  `data-orientation` driving the handles' inverse-orientation
+  styling), the `basis-0` panels whose hook-owned `flex-grow`
+  percentages size them (inner `overflow-auto` wrapper like the
+  library's), and the 1px handle (`bg-surface-border`,
+  `data-[separator=active]` recolor to the strong border) with the
+  invisible 4px `::after` hit strip, the focusable `role="separator"`
+  carrying `aria-orientation`/`aria-controls`/`aria-valuenow/min/max`,
+  and — `with_handle` — the hover-revealed grip knob (rotated 90° in
+  vertical groups). Sizes are percentages everywhere (`"25"`, `"25%"`,
+  `25`); unspecified panels split the remainder. One colocated runtime
+  hook owns the layout client-side (re-applied after LiveView
+  patches): pointer drags with document-wide `ew-resize`/`ns-resize`
+  cursors, proportional redistribution honoring per-panel
+  `min_size`/`max_size`, `collapsible`/`collapsed_size`
+  snap-and-restore (Enter toggles), the keyboard contract (arrows ±5
+  points, Home/End extremes, F6 handle cycling), double-click reset
+  to `default_size`, and optional `auto_save_id` persistence under
+  the source's `react-resizable-panels-v4:` localStorage scheme
+  (best-effort, failures swallowed).
 - `PolarisUI.Components.NavMenu` — the tab-style sub-navigation row
   gains the source item's `focus-ring` treatment (emerald
   `focus-visible` ring with offset) alongside its active/hover/disabled

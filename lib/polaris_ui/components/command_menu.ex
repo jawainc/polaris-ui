@@ -408,7 +408,8 @@ defmodule PolarisUI.Components.CommandMenu do
   end
 
   defp normalize_section(section) do
-    raise ArgumentError, "each section must be a map with a :commands list, got: #{inspect(section)}"
+    raise ArgumentError,
+          "each section must be a map with a :commands list, got: #{inspect(section)}"
   end
 
   defp normalize_command(%{id: id, name: name} = command) do

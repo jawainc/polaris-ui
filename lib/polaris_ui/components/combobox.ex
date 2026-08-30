@@ -285,7 +285,12 @@ defmodule PolarisUI.Components.Combobox do
                 stroke-width="3"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class={cn(["mr-2 size-4 shrink-0", if(option.value == @value, do: "opacity-100", else: "opacity-0")])}
+                class={
+                  cn([
+                    "mr-2 size-4 shrink-0",
+                    if(option.value == @value, do: "opacity-100", else: "opacity-0")
+                  ])
+                }
                 aria-hidden="true"
               >
                 <path d="M20 6 9 17l-5-5" />

@@ -518,7 +518,9 @@ defmodule PolarisUI.Components.Command do
 
   attr(:rest, :global, doc: "Forwarded to the `<div>`: `phx-click`, `phx-value-*`, `data-*`, …")
 
-  slot(:shortcut, doc: "Right-aligned ⌘-string (\"⌘P\") — or use the standalone `command_shortcut`.")
+  slot(:shortcut,
+    doc: "Right-aligned ⌘-string (\"⌘P\") — or use the standalone `command_shortcut`."
+  )
 
   slot(:inner_block, doc: "The item label.")
 
