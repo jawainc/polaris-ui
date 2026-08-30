@@ -26,7 +26,8 @@ defmodule PolarisUI.Tokens do
 
   Layout tokens live alongside the palette — `--card-padding-x`
   (default `1rem`) drives the shared horizontal rhythm of the card
-  sections.
+  sections, and `--animate-caret-blink` powers the input OTP's fake
+  caret (the Supabase docs' `caret-blink` keyframes).
 
   ## Theming
 
@@ -128,6 +129,19 @@ defmodule PolarisUI.Tokens do
       /* Typography — monospaced data controls are a Polaris signature */
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      /* Motion — the input-otp caret-blink animation (the Supabase docs'
+       * tailwind keyframes, as a v4 --animate token) */
+      --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+
+      @keyframes caret-blink {
+        0%, 70%, 100% {
+          opacity: 1;
+        }
+        20%, 50% {
+          opacity: 0;
+        }
+      }
     }
 
     /* Light palette — add `polaris-light` to <html> (or any wrapper) to flip. */

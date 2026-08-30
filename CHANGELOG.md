@@ -157,6 +157,75 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   A colocated runtime hook owns the open state (seeded from
   `default_open`, re-applied after LiveView patches, refusing disabled
   roots/triggers) and optionally pushes `on_change` with the state.
+- `PolarisUI.Components.Input` — the single-line text field, ported
+  1:1 from the Supabase `packages/ui` Input (`input.tsx`, the shadcn
+  input over Supabase tokens): the bordered panel fill that brightens
+  on hover, the expanded `focus-ring` utility (border on `:focus`,
+  emerald ring on `:focus-visible`), the `aria-invalid="true"` danger
+  tint, read-only flattening, and disabled treatment — plus the full
+  shared `SIZE_VARIANTS` scale (`tiny` 26px → `xlarge` 50px, default
+  `small` 34px) and the flat `file:` part styling. Beyond the source,
+  a `loading` attr locks the field (`aria-busy`, disabled) and
+  overlays the brand spinner at the trailing edge.
+- `PolarisUI.Components.InputOTP` — the one-time-password entry,
+  ported from the Supabase `packages/ui` Input OTP (the `input-otp`
+  library by @guilhermerodz): one real `<input>` (autocomplete
+  one-time-code, overridable) overlaid invisibly on the slot row —
+  exactly the library's architecture — with the server rendering the
+  slot groups (chars from the controlled `value`, normalized against
+  `pattern` (`any`/`digits`/`alnum`) and `max_length`) and `group_size`
+  chunking them with dot separators (the 3+3 two-factor layout). A
+  colocated runtime hook owns the slot choreography: capture-phase
+  sanitization of typed/pasted input before LiveView reads the value,
+  value mirroring, active-slot emerald ring from the caret position,
+  and the fake caret blinking via the new `--animate-caret-blink`
+  token (the Supabase docs' `caret-blink` keyframes). The slot row
+  lives in a `phx-update="ignore"` subtree so patches never fight the
+  hook.
+- `PolarisUI.Components.KeyboardShortcut` — the platform-aware
+  shortcut label, ported 1:1 from the Supabase `packages/ui`
+  KeyboardShortcut: logical key names (`Meta`, `Alt`, `Shift`,
+  `Enter`, `Esc`, `Tab`, arrows, single chars auto-uppercased)
+  resolved to glyphs with the source's compact-vs-spaced join rule
+  (`⌘K`, `⇧⌘M`, `Ctrl ↑`) in `pill` (bordered chip) and `inline`
+  (quiet text) variants. The source resolves the platform client-side,
+  so the port renders the Mac glyphs server-side and ships both labels
+  (`data-resolved`/`data-alt`) with a tiny runtime hook that swaps in
+  the non-Mac label on mount; `platform="mac"/"other"` pins the glyphs
+  and skips the hook.
+- `PolarisUI.Components.Label` — the accessible caption, ported 1:1
+  from the Supabase `packages/ui` Label (the Radix Label primitive):
+  a native `<label for>` with the source's exact treatment —
+  `text-sm`, tight leading, `peer-disabled` cursor/opacity dimming
+  for a disabled sibling control.
+- `PolarisUI.Components.Menubar` — the persistent horizontal menu bar,
+  ported from the Supabase `packages/ui` Menubar (Radix): the h-10
+  bordered bar of trigger buttons plus the full item vocabulary —
+  items (with `inset`), labels, separators, right-aligned shortcuts,
+  checkbox/radio items with indicators (server-driven `checked`),
+  radio groups, and hover/ArrowRight submenus with the auto-appended
+  chevron. A colocated runtime hook implements the Radix Menubar
+  interaction model: click/hover-open switching between menus, the
+  pinned `align=start`/`alignOffset=-4`/`sideOffset=8` positioning
+  with viewport flip, ArrowLeft/ArrowRight roaming between triggers
+  and switching menus while open, arrows/Home/End cycling, typeahead,
+  Escape closing inner-first, and item activation falling through to
+  each item's own `phx-click`.
+- `PolarisUI.Components.Mermaid` — diagrams from Mermaid-syntax text,
+  ported from the Supabase `packages/ui-patterns` Mermaid (the
+  `mermaid` npm library): a colocated runtime hook loads Mermaid 11
+  from jsDelivr once per page (self-hostable via `mermaid_src`),
+  initializes with the source's `theme: "base"` + diagram config,
+  renders with a unique id per render, sanitizes non-XML `<br>` tags,
+  and injects the SVG into the source's centered figure — with the
+  pulse placeholder while loading and the danger error box ("Mermaid
+  Error: …" + raw source) on invalid syntax. Where the source
+  hardcodes two hex palettes, the port reads `themeVariables` from
+  the Polaris design tokens at render time (purple accents excepted),
+  so diagrams follow app palette overrides and the `polaris-light`
+  flip (dark 14px / light 13px font switch included); re-renders are
+  keyed off a chart+theme hash and the canvas sits in a
+  `phx-update="ignore"` subtree.
 - `PolarisUI.Components.Admonition` — the callout pattern, styled 1:1 after
   the Supabase fragment `ui-patterns/Admonition` (on its shadcn `Alert`
   primitive): eight semantic types (`note`, `default`, `caution`,
