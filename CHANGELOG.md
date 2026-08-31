@@ -390,6 +390,87 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   for passive announcements); and caller classes for sandwiched usage
   (`rounded-none border-x-0`). Interactive states (hover, focus-ring,
   loading, disabled) are delegated to the slotted action controls.
+- `PolarisUI.Components.Sheet` — the edge-anchored panel, ported from the
+  Supabase `packages/ui` Sheet (shadcn over the Radix Dialog): the
+  `top`/`right`/`bottom`/`left` side ladder with inner-edge borders, the
+  seven-step `size` scale resolved per axis (`content`, `default` third,
+  `sm` quarter, `lg` half, `xl` five sixths, `xxl` sides-only `w-5/6`,
+  `full`), the elevated `bg-surface-panel` surface with `shadow-lg`, the
+  blurred scrim (droppable via `has_overlay={false}`), the
+  header/body/`sheet_section`/footer anatomy with the source's
+  `px-5 py-4` rhythm, and the built-in ✕ (droppable via
+  `show_close={false}`). A colocated runtime hook slides the panel in
+  from its edge over 300ms (the source's `slide-in-from-*` enter) and
+  mirrors Radix's modal wiring — Tab trapping, first-focusable focus,
+  focus restore, scroll lock, Escape, and scrim dismissal — all
+  gated on the `modal` attribute so `modal={false}` renders the
+  source's non-modal sheet (interactive page, no `aria-modal`,
+  Escape still closes).
+- `PolarisUI.Components.Sidebar` — the full shadcn sidebar family at the
+  Supabase widths: `sidebar_provider` (the flex shell owning
+  `--sidebar-width: 13rem` / `--sidebar-width-icon: 3rem` and painting
+  itself under `variant="inset"`), `sidebar` with the
+  `offcanvas`/`icon`/`none` collapse modes, `sidebar`/`floating`/`inset`
+  variants, `left`/`right` sides, and the `overflowing` overlay mode —
+  state riding the DOM exactly like the source (`data-state`,
+  `data-collapsible` only-when-collapsed, `data-variant`, `data-side`)
+  so every descendant restyles through Tailwind v4 group/peer
+  variants. The complete primitive set: trigger (PanelLeft ghost),
+  rail (mouse-only strip with the flip cursors), inset (`<main>` that
+  rounds under `variant="inset"`), header/content/footer bands,
+  separator, input, group/label/action/content, menu/item/button
+  (active, `sm`/`default`/`lg` sizes, `outline` variant, `has_icon`
+  icon-mode squares, `loading` dim-suppression, `tooltip` as the
+  icon-collapsed native title, `href` link flavor), action
+  (`show_on_hover`), badge, skeleton (50–90% random bar), and the
+  sub/sub-item/sub-button subtree. A colocated runtime hook persists
+  every state change to the source's `sidebar:state` cookie (7-day
+  max-age), owns the mobile rung (the 18rem sheet with scrim/Escape
+  dismissal, Tab trapping, and edge slide-in), and — opt-in via
+  `shortcut`, matching the Supabase source shipping it disabled —
+  the ⌘/Ctrl+B toggle.
+- `PolarisUI.Components.Skeleton` — the pulsing placeholder, ported from
+  the Supabase `packages/ui` Skeleton: one `<div>` over
+  `animate-pulse rounded-md` filled with a new
+  `--color-surface-muted` alpha token (the source's low-alpha
+  `bg-muted` wash, flipping under `polaris-light`) so skeletons read
+  over any surface; shape arrives entirely through `class` like the
+  source's single `className` prop.
+- `PolarisUI.Components.Slider` — the value/range picker, ported from the
+  Supabase `packages/ui` Slider (shadcn over the Radix primitive): a
+  value list whose length is the thumb count (a bare slider inherits
+  the source's `[min, max]` quirk; single numbers normalize), the 4px
+  pill track with the muted-foreground range span, 20px foreground
+  discs with ground-color rings, and the full Radix interaction in a
+  colocated runtime hook — step snapping and clamping, nearest-thumb
+  track presses, drag-local painting (thumb, range, `aria-valuenow`,
+  and hidden inputs) with `on_change`/`on_commit` pushed only on
+  release and keypress, the arrows ±1 step / Shift±10 / PageUp/Down /
+  Home/End keyboard contract, per-thumb `role="slider"` aria wiring,
+  and one hidden range input per thumb when `name` is set.
+- `PolarisUI.Components.Sonner` — the toast stack, ported from the
+  Supabase `packages/ui` SonnerToaster (shadcn over sonner,
+  unstyled-mode): `toaster` renders the fixed stack pinned to any of
+  the six positions at the 356px width, and a colocated runtime hook
+  owns the client lifecycle — newest-first toasts sliding in from the
+  position edge (400ms), the collapsed stack (scaled/dimmed/clipped
+  behind the front toast) expanding on hover/focus to measured
+  heights, pausable 4s auto-close timers (loading and `:infinity`
+  never auto-close), 45px/fling swipe dismissal, the 3-deep visible
+  limit, Escape collapse, and ✕ close buttons surfacing on hover.
+  Toasts fire with `push_event(socket, "sonner", Sonner.toast/2)` —
+  the payload builder carrying `type` (with the Supabase StatusIcon
+  badge set for info/warning/error and the emerald check for
+  success), `description` (muted, hidden on collapsed non-front
+  toasts), `duration`, `id` for update-in-place (loading → success),
+  and `action`/`cancel` buttons pushing LiveView events before
+  dismissing; warning/error toasts tint via the muted status tokens.
+- `PolarisUI.Components.SuccessCheck` — the static 20px emerald disc with
+  the 12px 3px-stroke check, ported 1:1 from the Supabase
+  `packages/ui` SuccessCheck (`text-surface-ground` reproducing the
+  source's `text-white dark:text-black` via theme tokens): the
+  selected-state and completion-progress patterns documented, the
+  glyph `aria-hidden` as a visual echo of row semantics.
 - `PolarisUI.Utils.slot_content?/2` — blank-detection for slot lists that
   handles both statically-inlined `Phoenix.LiveView.Rendered` inner
   blocks and arity-2 closure inner blocks (dynamic content / calls inside

@@ -19,6 +19,7 @@ defmodule PolarisUI.Tokens do
   | `--color-surface-panel`        | `bg-surface-panel`                   | `#1c1c1c`             |
   | `--color-surface-border`       | `border-surface-border`              | `#2e2e2e`             |
   | `--color-surface-border-hover` | `border-surface-border-hover`        | `#404040`             |
+  | `--color-surface-muted`        | `bg-surface-muted`                   | `rgba(237,237,237,.08)` (light: `rgba(23,23,23,.06)`) |
   | `--color-content-primary`      | `text-content-primary`               | `#ededed`             |
   | `--color-content-secondary`    | `text-content-secondary`             | `#a0a0a0`             |
   | `--color-content-muted`        | `text-content-muted`                 | `#707070`             |
@@ -118,6 +119,13 @@ defmodule PolarisUI.Tokens do
       --color-surface-border: #2e2e2e;
       --color-surface-border-hover: #404040;
 
+      /*
+       * Skeleton placeholder — a low-alpha content wash (the Supabase
+       * `bg-muted` pattern) instead of an opaque surface, so skeletons
+       * read over whatever surface sits behind them.
+       */
+      --color-surface-muted: rgba(237, 237, 237, 0.08);
+
       /* Content */
       --color-content-primary: #ededed;
       --color-content-secondary: #a0a0a0;
@@ -167,6 +175,7 @@ defmodule PolarisUI.Tokens do
       --color-surface-panel-hover: #ededed;
       --color-surface-border: #e2e2e2;
       --color-surface-border-hover: #c8c8c8;
+      --color-surface-muted: rgba(23, 23, 23, 0.06);
       --color-content-primary: #171717;
       --color-content-secondary: #525252;
       --color-content-muted: #8f8f8f;

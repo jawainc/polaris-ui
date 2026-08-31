@@ -36,7 +36,8 @@ defmodule PolarisUI.Components do
   `hover_card`, `input`, `input_otp`, `keyboard_shortcut`, `label`,
   `menubar`, `mermaid`, `navigation_menu`, `pagination`, `popover`,
   `progress`, `radio_group`, `resizable`, `scroll_area`, `select`,
-  and `separator` atoms; the `admonition`,
+  `separator`, `sheet`, `sidebar`, `skeleton`, `slider`, `sonner`,
+  and `success_check` atoms; the `admonition`,
   `collapsible_alert`, `collapsible_card_section`, `confirmation_modal`,
   `data_input`, `empty_state_presentational`, `error_display`,
   `filter_bar`, `form_item_layout`, `info_tooltip`, and
