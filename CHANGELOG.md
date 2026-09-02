@@ -471,6 +471,149 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   source's `text-white dark:text-black` via theme tokens): the
   selected-state and completion-progress patterns documented, the
   glyph `aria-hidden` as a visual echo of row semantics.
+- `PolarisUI.Components.Switch` — the two-state instant toggle, styled
+  1:1 after the Supabase `packages/ui` Switch (shadcn over Radix): the
+  pill `role="switch"` track filling with brand emerald when checked,
+  the translating thumb (dark on the panel surface, white on emerald)
+  sliding on `transition-transform` with per-size travel distances,
+  and the source's three-track scale — `small` (16x28px/12px),
+  `medium` (20x34px/16px, the default), `large` (24x44px/18px). The
+  paired `<label for>` gives the track its accessible name (dimming
+  through the `peer` relationship), and with `name` set a
+  visually-hidden native checkbox carries the value into form
+  submissions — synced by the colocated runtime hook, which owns the
+  Radix toggle cycle client-side, dispatches bubbling `input`/`change`
+  so `phx-change` forms observe toggles, mirrors an optional
+  `on_change` event (`%{"state" => "checked" | "unchecked", "value" =>
+  value}`), and re-applies after LiveView patches. Explicit
+  `tabindex="-1"` on disable per the Supabase Safari fix; motion
+  skips under `prefers-reduced-motion`; no loading state by design —
+  gate with `disabled` while the consequence is in flight.
+- `PolarisUI.Components.Table` — the data-grid chrome family, styled
+  1:1 after the Supabase `packages/ui` Table (semantic `<table>`
+  subcomponents in the shadcn style): a horizontal-scroll wrapper
+  around `group/table w-full caption-bottom text-sm`; the three row
+  groups (header rows on the panel surface, body dropping the last
+  border, footer leading with one and medium weight); `group/row` `<tr>`s
+  with the hover wash and `is_selected` painting
+  `data-state="selected"`; `<th>`s in the source's `heading-meta`
+  treatment (mono uppercase xsmall, the Select group-label style) with
+  optional `abbr`/`aria-sort`; and `p-4 align-middle` cells with the
+  checkbox-column parity (`[&:has([role=checkbox])]:pr-0`).
+  `table_head_sort` ports the source's `TableHeadSort` as a LiveView
+  button — it pushes `on_sort` with `phx-value-column` and animates
+  the stacked chevron/arrow icon trio from `current_sort`/`next_sort`.
+  The table is non-interactive chrome by design: rows render exactly
+  what the server assigns and sorting is a plain round trip — no
+  colocated hook.
+- `PolarisUI.Components.Tabs` — the layered tab panels shown one at a
+  time, styled 1:1 after the Supabase `packages/ui` Tabs (shadcn over
+  Radix): the composed `tabs`/`tabs_list`/`tabs_trigger`/`tabs_content`
+  family — the `role="tablist"` row with the shared bottom border,
+  underline triggers whose transparent `border-b-2` grows into the
+  content color while active (`data-[state=active]:border-content-primary`,
+  with the label promotion and `shadow-xs`), and `mt-4` focusable
+  `role="tabpanel"` regions `hidden` unless active. A colocated runtime
+  hook owns selection client-side like Radix — seeded from the root's
+  `value` (or the trigger painted `active` at SSR, the
+  `nav_menu_item is_active` pattern for a paint-correct first render),
+  then authoritative across LiveView patches. The hook wires the Radix
+  id contract (`aria-controls`/`aria-labelledby` between value-matched
+  trigger/panel pairs, deriving ids from the root), keeps one roving
+  tab stop (active trigger, else first enabled), follows the root's
+  `orientation` for both the arrow-key pair and the list's
+  `aria-orientation`, activates automatically (arrows select and focus
+  in one move, wrapping; Home/End jump; disabled triggers skipped),
+  and mirrors an optional `on_change` event (`%{"value" => value}`).
+- `PolarisUI.Components.Textarea` — the multi-line text field, styled
+  1:1 after the Supabase `packages/ui` Textarea (the shadcn-style
+  textarea over Supabase's semantic tokens, mapped to the Polaris
+  palette): a plain `<textarea>` with the bordered panel fill and the
+  source's 80px height floor, the border brightening on hover and
+  focus, the emerald `focus-visible` ring, the muted placeholder, and
+  the danger tint keyed off `aria-invalid="true"` (driven by the
+  caller's validation layer). Read-only flattens the border and dims
+  the text; `disabled` dims the whole field at half opacity with the
+  not-allowed cursor; `loading` locks the field (`aria-busy`) and
+  overlays the brand spinner pinned to the top-right corner. No size
+  scale (the source ships none, unlike `input`) and purely
+  presentational — no colocated hook. For the chat-style input that
+  grows with its content, see `expanding_textarea`.
+- `PolarisUI.Components.Toggle` — the standalone two-state trigger,
+  styled 1:1 after the Supabase `packages/ui` Toggle (shadcn over
+  Radix): a single `aria-pressed` button carrying `data-state="on" |
+  "off"` — the ghost treatment (transparent at rest, muted wash on
+  hover and when on, with the paint mirrored under `aria-[pressed=true]`)
+  or the framed `outline` variant whose border brightens when on, on
+  the shared size scale (`tiny` 26px / `default` 40px / `sm` 34px /
+  `lg` 44px). The colocated runtime hook owns the Radix press cycle
+  client-side (mirroring `data-state`/`aria-pressed`, re-applying
+  after LiveView patches) with an optional `on_change` event
+  (`%{"state" => "on" | "off", "value" => value}`). No form
+  participation by design — it is an instant, reversible control (use
+  `switch` or `checkbox` inside forms); no loading state.
+- `PolarisUI.Components.ToggleGroup` — the set of two-state triggers
+  acting as one control, styled 1:1 after the Supabase `packages/ui`
+  ToggleGroup family (shadcn over Radix): a `role="group"` container
+  of real `aria-pressed` item buttons in the toggle's class
+  vocabulary, in `single` (one active value, deactivatable — clicking
+  the active item clears it, unlike radios) or `multiple` (a free
+  set) mode. A colocated runtime hook owns selection client-side,
+  seeded from the root's `value` (string or list) or per-item
+  `checked` (which also paints the SSR), with the group's
+  `variant`/`size` shared to every item through the dataset (the
+  React-context semantics; per-item attrs set lock flags so they win)
+  and `on_change` payloads shaped by mode (`%{"value" => value | nil}`
+  single, `%{"value" => [values]}` multiple). One roving tab stop
+  (first on, else first enabled) with ArrowDown/Right, ArrowUp/Left,
+  Home, and End — automatic activation, wrapping, disabled items
+  skipped (the Safari `tabindex="-1"` fix); clicks delegate on the
+  root so LiveView morphs never orphan them; state re-applies after
+  patches. No form participation by design — mirror through
+  `on_change` or use `radio_group` in forms.
+- `PolarisUI.Components.Tooltip` — the short non-interactive tip,
+  styled 1:1 after the Supabase `packages/ui` Tooltip (Radix
+  primitive): wrap any trigger markup in the `trigger` slot (an inline
+  span anchor, the `asChild` equivalent) and the tip body rides the
+  `content` slot in the source's compact panel (`z-50 overflow-hidden
+  rounded-md border px-3 py-1.5 text-xs shadow-md`), always in the DOM
+  and positioned beside the trigger by the colocated runtime hook.
+  The hook ports the Radix timing contract — pointer rest opens after
+  `open_delay` (700ms default), a page-wide skip window opens
+  instantly when a trigger is entered within `skip_delay` (300ms) of
+  any close (hopping a row of icons never re-pays the delay), keyboard
+  focus opens immediately, Escape and focus-out close — with
+  collision flipping across the `side` placements. Pointer leave
+  closes at once: tooltips have no grace area, the deliberate
+  difference from `hover_card` (which exists to hold interactive
+  content). No server round trip; a LiveView patch never snaps an
+  open tip shut. For the fixed info glyph see `info_tooltip`.
+- `PolarisUI.Components.TreeView` — the hierarchical file-system-style
+  browser, ported from the Supabase `packages/ui` TreeView (a styled
+  wrapper over `react-accessible-treeview`): the 28px data row with
+  per-level guide lines (at the chevron's half width), the chevron +
+  folder glyph on branches (both folder geometries shipped, CSS-picked
+  off `aria-expanded` so client toggles stay in sync), the neutral
+  file glyph on leaves (the source's SQL mark is a brand asset),
+  level-padding arithmetic (`x_padding`/`level_padding`), the
+  selection bar + emerald wash on `aria-selected`, loading spinner
+  branches, disabled rows, and `description`s riding the native
+  `title`. One data-driven `items` prop (nested maps validated by the
+  exported `flatten_tree/1`, the source's `flattenTree`) drives the
+  classic accessible tree — `<ul role="tree">` / `<li role="treeitem">`
+  / nested `<ul role="group">` — with `aria-level`, `aria-selected`,
+  `aria-expanded`, and `aria-disabled` on every row. The colocated
+  runtime hook owns expansion and selection client-side (a branch
+  click selects and toggles, the source's default config) with the
+  full keyboard contract (one roving tab stop; ArrowDown/Up walk
+  visible items; ArrowRight expands else steps; ArrowLeft collapses
+  else jumps to parent; Home/End; Enter/Space) and mirrors `on_select`
+  / `on_toggle` / `on_rename` events. `editing_id` swaps a row's
+  cluster for the inline rename form porting the source's exact
+  timing contract: focus after 200ms (dropdown close animations steal
+  it first), select-to-last-dot 50ms later, Enter blurs into submit,
+  Escape restores and submits the original, and a blur within 400ms
+  is treated as accidental — focus taken back, one push per session.
 - `PolarisUI.Utils.slot_content?/2` — blank-detection for slot lists that
   handles both statically-inlined `Phoenix.LiveView.Rendered` inner
   blocks and arity-2 closure inner blocks (dynamic content / calls inside
